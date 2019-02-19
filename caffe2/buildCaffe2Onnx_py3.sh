@@ -19,6 +19,7 @@ pip_rasterio () {
     python3 -m virtualenv env --python=python3
     source env/bin/activate
     pip3 install https://download.pytorch.org/whl/cpu/torch-1.0.1.post2-cp36-cp36m-linux_x86_64.whl
+    pip3 uninstall Pillow
     pip3 install torchvision
     pip3 install onnx
     pip3 install future
