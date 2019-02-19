@@ -19,7 +19,6 @@ pip_rasterio () {
     python3 -m virtualenv env --python=python3
     source env/bin/activate
     pip3 install https://download.pytorch.org/whl/cpu/torch-1.0.1.post2-cp36-cp36m-linux_x86_64.whl
-    pip3 uninstall Pillow
     pip3 install torchvision
     pip3 install onnx
     pip3 install future
@@ -45,10 +44,14 @@ gather_pack () {
     find . -type d -name "tests" -exec rm -rf {} +
 
     # cleaning
-    find -name "*.so" | xargs strip
-    find -name "*.so.*" | xargs strip
+    find -name "*.so" -not -path "*/PIL/*" | xargs strip
+    find -name "*.so.*" -not -path "*/PIL/*" | xargs strip
     # find . -name tests -type d -print0|xargs -0 rm -r --
     # find . -name test -type d -print0|xargs -0 rm -r --    
+
+    # Delete PyTorch binaries, because we only need caffe2
+    find -name "libtorch*" | xargs rm
+
     rm -r pip
     rm -r pip-*
     rm -r wheel
